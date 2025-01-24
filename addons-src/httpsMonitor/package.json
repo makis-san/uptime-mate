@@ -1,0 +1,11 @@
+{
+  "name": "https-monitor",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "dependencies": {
+    "axios": "^1.0.0"
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}
