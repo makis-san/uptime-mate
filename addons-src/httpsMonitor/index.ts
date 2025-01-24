@@ -19,7 +19,7 @@ const httpsMonitor = {
 
       const log = chalk.green(
         `[HTTPS] ${chalk.white(
-          `'${address}' - UP (Status: ${response.status}, Time: ${elapsedTime}ms)`
+          `Status: ${response.status}\nTime: ${elapsedTime}ms`
         )}`
       );
 
@@ -29,7 +29,7 @@ const httpsMonitor = {
       };
     } catch (error) {
       const log = chalk.red(
-        `[HTTPS] ${chalk.white(`'${address}' - DOWN or Unreachable.`)}`
+        `[HTTPS] ${chalk.white(`'${address}'\nDOWN or Unreachable.`)}`
       );
       return {
         success: false,

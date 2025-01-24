@@ -7,7 +7,7 @@ interface MinecraftStatusResponse {
     name: string;
     protocol: number;
   };
-  description: string;
+  description: string | { text: string; extra?: any[] };
   players: {
     max: number;
     online: number;
@@ -27,7 +27,7 @@ const minecraftMonitor = {
       const { hostname, port } = await resolveAddress(address);
       const status = await getStatus(hostname, port);
 
-      const motdText = sanitizeMOTD(status.description);
+      const motdText = formatMOTD(status.description);
 
       const playersText = `${chalk.white(
         `Players: ${chalk.yellow(status.players.online)}/${chalk.yellow(
@@ -146,6 +146,26 @@ function parseStatusResponse(data: Buffer): MinecraftStatusResponse {
 
   const jsonString = data.toString("utf8", jsonStartIndex);
   return JSON.parse(jsonString);
+}
+
+function formatMOTD(
+  description: string | { text: string; extra?: any[] }
+): string {
+  if (typeof description === "string") {
+    return sanitizeMOTD(description);
+  }
+
+  if (description.text || description.extra) {
+    let formattedMOTD = description.text || "";
+    if (description.extra) {
+      formattedMOTD += description.extra
+        .map((part) => (typeof part === "string" ? part : part.text || ""))
+        .join("");
+    }
+    return sanitizeMOTD(formattedMOTD);
+  }
+
+  return chalk.gray("No MOTD available.");
 }
 
 function sanitizeMOTD(motd: string): string {

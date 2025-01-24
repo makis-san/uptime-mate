@@ -13,10 +13,12 @@ export const getAddons = (log: LogCommand) => {
 
     if (fs.existsSync(addonPath)) {
       try {
-        const addon = require(addonPath);
-        if (addon && addon.default) {
-          loadedAddons.push({ ...addon.default, addonPath });
-          log.info(`Loaded addon: ${addon.default.name}`);
+        const addon = require(addonPath); // Dynamically load the addon
+        const addonExport = addon.default || addon; // Handle default or named exports
+
+        if (addonExport) {
+          loadedAddons.push({ ...addonExport, addonPath });
+          log.info(`Loaded addon: ${addonExport.name}`);
         } else {
           log.warn(
             `Addon at ${addonPath} does not export a default MonitorAddon.`
@@ -31,5 +33,6 @@ export const getAddons = (log: LogCommand) => {
       log.warn(`No index.js found in ${addonFolder}. Skipping.`);
     }
   });
+
   return loadedAddons;
 };

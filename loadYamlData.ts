@@ -7,6 +7,7 @@ const yamlFilePath = path.resolve(__dirname, "monitored.yml");
 
 export const loadYamlData = (log: LogCommand) => {
   let monitoredApps: {
+    _id: string;
     address: string;
     addon: string;
     lastStatus?: {
@@ -14,12 +15,14 @@ export const loadYamlData = (log: LogCommand) => {
       message: string;
       timestamp: string;
     };
+    style?: Record<string, any>;
   }[] = [];
 
   if (fs.existsSync(yamlFilePath)) {
     try {
       const yamlContent = fs.readFileSync(yamlFilePath, "utf8");
       monitoredApps = yaml.load(yamlContent) as {
+        _id: string;
         address: string;
         addon: string;
       }[];
@@ -29,5 +32,5 @@ export const loadYamlData = (log: LogCommand) => {
     }
   }
 
-  return monitoredApps;
+  return monitoredApps || [];
 };
