@@ -97,13 +97,13 @@ const refreshMonitoredApps = () => {
   const availableWidth = mainBox.width as number;
   let currentRowWidth = 0;
   let currentRow = 0;
+  let maxRowHeight = 0;
 
   monitoredApps.forEach((app) => {
     const label = app.address;
     let content = app.lastStatus?.message || "No Status";
 
     const lines = content.split("\n").map((line) => line.trim());
-
     const cleanLines = lines.map((line) => line.replace(/\x1b\[[0-9;]*m/g, ""));
     const longestLine = Math.max(...cleanLines.map((line) => line.length));
 
@@ -115,14 +115,19 @@ const refreshMonitoredApps = () => {
     );
     const boxHeight = lines.length + 2;
 
+    // Update maximum row height
+    maxRowHeight = Math.max(maxRowHeight, boxHeight);
+
     if (currentRowWidth + boxWidth + gap > availableWidth) {
       currentRow++;
       currentRowWidth = 0;
+
+      // Use maxRowHeight for consistent row positioning
+      maxRowHeight = Math.max(maxRowHeight, boxHeight); // Reset for the new row
     }
 
     const left = currentRowWidth;
-    const top = currentRow * (boxHeight + gap);
-
+    const top = currentRow * (maxRowHeight + gap); // Use maxRowHeight for row alignment
     currentRowWidth += boxWidth + gap;
 
     const appBox = blessed.box({
