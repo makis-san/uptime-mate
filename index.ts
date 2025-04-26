@@ -1,6 +1,6 @@
 import blessed from "blessed";
 import fs from "fs";
-import { getLogsBox } from "./getLogsBox";
+import { getLogsBox } from "./src/ui/getLogsBox";
 import { getAddons } from "./getAddons";
 import { loadYamlData } from "./loadYamlData";
 import yaml from "yaml";

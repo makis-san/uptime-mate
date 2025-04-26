@@ -1,7 +1,7 @@
 import path from "path";
 import yaml from "js-yaml";
 import fs from "fs";
-import { LogCommand } from "./getLogsBox";
+import { LogCommand } from "./src/ui/getLogsBox";
 
 const yamlFilePath = path.resolve(__dirname, "monitored.yml");
 

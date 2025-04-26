@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "tsx ./index.ts",
+    "dev": "tsx ./src/index.ts",
     "build": "yarn build-addons && tsc && cp -r ./addons ./dist",
     "build-addons": "tsx ./scripts/build-addons.ts"
   },

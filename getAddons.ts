@@ -1,7 +1,7 @@
 import fs from "fs";
 import { MonitorAddon } from "./types/addon";
 import path from "path";
-import { LogCommand } from "./getLogsBox";
+import { LogCommand } from "./src/ui/getLogsBox";
 
 const addonsDir = path.resolve(__dirname, "addons");
 
